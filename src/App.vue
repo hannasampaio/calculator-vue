@@ -1,9 +1,12 @@
 <script setup>
 import { reactive } from 'vue';
+import InputNumber from './components/InputNumber.vue';
+import OperacaoSelect from './components/OperacaoSelect.vue';
+import Resultado from './components/Resultado.vue';
 
 const estado = reactive({
-  numero1: 0,
-  numero2: 0,
+  numero1: null,
+  numero2: null,
   operacao: 'soma',
   resultado: null,
 });
@@ -31,31 +34,12 @@ const calcular = () => {
     <div class="card shadow-sm">
       <div class="card-body">
         <form>
-          <div class="mb-3">
-            <label for="numero1" class="form-label">Primeiro Número</label>
-            <input id="numero1" type="number" v-model.number="estado.numero1" class="form-control" 
-              placeholder="Digite um número" @input="calcular"/>
-          </div>
-          <div class="mb-3">
-            <label for="numero2" class="form-label">Segundo Número</label>
-            <input id="numero2" type="number" v-model.number="estado.numero2" class="form-control"
-              placeholder="Digite outro número" @input="calcular"/>
-          </div>
-          <div class="mb-3">
-            <label for="operacao" class="form-label">Operação</label>
-            <select id="operacao" v-model="estado.operacao" class="form-select" @change="calcular">
-              <option value="soma">Soma (+)</option>
-              <option value="subtracao">Subtração (-)</option>
-              <option value="multiplicacao">Multiplicação (×)</option>
-              <option value="divisao">Divisão (÷)</option>
-            </select>
-          </div>
+          <InputNumber :estado="estado" :calcular="calcular" />
+          <OperacaoSelect :estado="estado" :calcular="calcular" />
         </form>
       </div>
     </div>
-    <div v-if="estado.resultado !== null" class="alert alert-info text-center mt-4">
-      <strong>Resultado:</strong> {{ estado.resultado }}
-    </div>
+    <Resultado :resultado="estado.resultado" />
   </div>
 </template>
 
